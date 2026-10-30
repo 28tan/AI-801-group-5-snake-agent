@@ -2,6 +2,8 @@ import pygame
 
 from snake import SnakeGame
 from mdp import SnakeMDP, MDPAgent
+from agent import DQNAgent, train
+
 
 
 def main():
@@ -9,11 +11,11 @@ def main():
 
     game = SnakeGame()
     mdp = SnakeMDP()
-    agent = MDPAgent(mdp)
-
+    # agent = MDPAgent(mdp)
+    train()
+    agent = DQNAgent()
     screen = pygame.display.set_mode((600, 440))
     pygame.display.set_caption("Snake Game - MDP Agent")
-
     font = pygame.font.SysFont("arial", 26, bold=True)
     small_font = pygame.font.SysFont("arial", 17)
     clock = pygame.time.Clock()
@@ -34,7 +36,8 @@ def main():
 
         # Agent controls the snake automatically
         if running and not game.done:
-            action = agent.choose_action(game)
+            # action = agent.choose_action(game)
+            action = agent.get_action(game)
             next_state, reward, done = mdp.transition(game, action)
 
         # Draw the game
