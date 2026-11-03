@@ -73,7 +73,7 @@ class SnakeGame:
         self.snake.insert(0, new_head)
 
         if eating:
-            # self.score += 1
+            self.score += 1
             self.food = self.spawn_food()
 
             if self.food is None:
