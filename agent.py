@@ -96,6 +96,7 @@ def train():
     steps_since_food = 0
     while True:
         state_old = get_state(game)
+        features_old = to_features(state_old)  # capture before game.step mutates the snake
 
         final_move, action = agent.get_action(state_old)
 
@@ -107,7 +108,6 @@ def train():
             done = True
             reward = agent.mdp.DEATH_REWARD
 
-        features_old = to_features(state_old)
         features_new = to_features(state_new)
 
         agent.train_short_memory(features_old, final_move, reward, features_new, done)
