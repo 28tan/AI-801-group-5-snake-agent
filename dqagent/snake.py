@@ -119,12 +119,3 @@ class SnakeGame:
             (245, 245, 245),
         )
         screen.blit(score_text, (10, 8))
-
-
-def get_state(self):
-    return (
-        self.snake,
-        self.direction,
-        self.food,
-        self.done,
-    )

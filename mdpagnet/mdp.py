@@ -1,6 +1,3 @@
-from snake import get_state
-
-
 class SnakeMDP:
     """
     Full-state MDP for Snake.
@@ -28,6 +25,14 @@ class SnakeMDP:
     DEATH_REWARD = -10
     STEP_REWARD = -0.1
 
+    def get_state(self, game):
+        return (
+            tuple(game.snake),
+            game.direction,
+            game.food,
+            game.done,
+        )
+
     def transition(self, game, action):
         """Apply an action and return (next_state, reward, done)."""
         old_score = game.score
@@ -41,7 +46,7 @@ class SnakeMDP:
         else:
             reward = self.STEP_REWARD
 
-        return get_state(game), reward, game.done
+        return self.get_state(game), reward, game.done
 
 
 class MDPAgent:
