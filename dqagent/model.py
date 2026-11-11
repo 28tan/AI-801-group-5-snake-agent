@@ -9,7 +9,7 @@ import torch.nn.functional as F
 class Linear_QNet(nn.Module):
     def __init__(
         self,
-        input_size=11,
+        input_size=12,
         hidden_size=256,
         output_size=3
     ):

@@ -39,6 +39,33 @@ def to_features(state):
             or new_head in body
         )
 
+    def line_of_sight(snake, food):
+        if food is None:
+            return False
+
+        hx, hy = snake[0]
+        fx, fy = food
+
+        # Food must be in the same row or column as the head.
+        if hx != fx and hy != fy:
+            return False
+
+        # Check whether a body segment blocks the straight path.
+        for x, y in snake[1:]:
+
+            # Horizontal line of sight.
+            if hy == fy and y == hy:
+                if min(hx, fx) < x < max(hx, fx):
+                    return False
+
+            # Vertical line of sight.
+            if hx == fx and x == hx:
+                if min(hy, fy) < y < max(hy, fy):
+                    return False
+
+        # No body segment blocks the straight path.
+        return True
+
     # Right and left are relative to the current direction.
     right = (-dy, dx)
     left = (dy, -dx)
@@ -66,6 +93,8 @@ def to_features(state):
             fy < hy,
             fy > hy,
         ]
+
+    features.append(line_of_sight(snake, food))
     return np.array(features, dtype=np.float32)
 
 
@@ -76,7 +105,7 @@ class DQNAgent:
         self.gamma = 0.9
         self.memory = deque(maxlen=MAX_MEMORY)
 
-        self.model = Linear_QNet(11, 256, 3)
+        self.model = Linear_QNet(12, 256, 3)
 
         self.trainer = QTrainer(
             self.model,
