@@ -1,4 +1,5 @@
 
+import heapq
 import torch
 import random
 import numpy as np
@@ -12,6 +13,48 @@ from model import Linear_QNet, QTrainer
 MAX_MEMORY = 100_000
 BATCH_SIZE = 1000
 LR = 0.001
+
+def has_path_to_food_greedy(snake, food):
+    if food is None:
+        return False
+
+    cols = SnakeGame.WIDTH // SnakeGame.CELL
+    rows = SnakeGame.HEIGHT // SnakeGame.CELL
+
+    def to_cell(point):
+        return point[0] // SnakeGame.CELL, point[1] // SnakeGame.CELL
+
+    grid = [[False] * cols for _ in range(rows)]
+
+    for segment in snake:
+        cx, cy = to_cell(segment)
+        if 0 <= cx < cols and 0 <= cy < rows:
+            grid[cy][cx] = True
+
+    start = to_cell(snake[0])
+    gx, gy = to_cell(food)
+
+    visited = {start}
+    frontier = [(0, start)]
+
+    while frontier:
+        _, (cx, cy) = heapq.heappop(frontier)
+
+        for nx, ny in ((cx + 1, cy), (cx - 1, cy), (cx, cy + 1), (cx, cy - 1)):
+            if (nx, ny) == (gx, gy):
+                return True
+
+            if (
+                0 <= nx < cols
+                and 0 <= ny < rows
+                and not grid[ny][nx]
+                and (nx, ny) not in visited
+            ):
+                visited.add((nx, ny))
+                distance = abs(nx - gx) + abs(ny - gy)
+                heapq.heappush(frontier, (distance, (nx, ny)))
+
+    return False
 
 
 def to_features(state):
@@ -93,8 +136,13 @@ def to_features(state):
             fy < hy,
             fy > hy,
         ]
+    los = line_of_sight(snake, food)
+    features.append(los)
+    if not los:
+        features.append(has_path_to_food_greedy(snake, food))
+    else:
+        features.append(True)
 
-    features.append(line_of_sight(snake, food))
     return np.array(features, dtype=np.float32)
 
 
@@ -105,7 +153,7 @@ class DQNAgent:
         self.gamma = 0.9
         self.memory = deque(maxlen=MAX_MEMORY)
 
-        self.model = Linear_QNet(12, 256, 3)
+        self.model = Linear_QNet(13, 256, 3)
 
         self.trainer = QTrainer(
             self.model,
