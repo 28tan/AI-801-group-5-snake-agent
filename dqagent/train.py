@@ -81,7 +81,7 @@ def train(episodes=2000, log_file=None, seed=42):
             episode_reward = 0.0
 
             # Exploration value for this episode.
-            epsilon = max(0, 80 - agent.n_games)
+            epsilon = max(0, 1_000 - agent.n_games)
 
             while not game.done:
                 # 1. Observe full MDP state.
@@ -119,7 +119,7 @@ def train(episodes=2000, log_file=None, seed=42):
 
                 episode_reward += reward
 
-                # 4. Convert states into 11 features.
+                # 4. Convert states into features.
                 features_old = to_features(state_old)
                 features_new = to_features(state_new)
 

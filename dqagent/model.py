@@ -10,7 +10,7 @@ class Linear_QNet(nn.Module):
     def __init__(
         self,
         input_size=13,
-        hidden_size=256,
+        hidden_size=1024,
         output_size=3
     ):
         super().__init__()

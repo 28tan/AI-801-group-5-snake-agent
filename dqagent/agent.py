@@ -10,7 +10,7 @@ from mdp import SnakeMDP
 from model import Linear_QNet, QTrainer
 
 
-MAX_MEMORY = 100_000
+MAX_MEMORY = 2_560_000
 BATCH_SIZE = 1000
 LR = 0.001
 
@@ -153,7 +153,7 @@ class DQNAgent:
         self.gamma = 0.9
         self.memory = deque(maxlen=MAX_MEMORY)
 
-        self.model = Linear_QNet(13, 256, 3)
+        self.model = Linear_QNet(13, 1024, 3)
 
         self.trainer = QTrainer(
             self.model,
@@ -204,9 +204,9 @@ class DQNAgent:
     def get_action(self, state, training=True):
         # Explore randomly during training.
         # Use the network during normal gameplay.
-        self.epsilon = max(0, 80 - self.n_games)
+        self.epsilon = max(0, 1_000 - self.n_games)
 
-        if training and random.randint(0, 200) < self.epsilon:
+        if training and random.randint(0, 2_500) < self.epsilon:
             move = random.randint(0, 2)
         else:
             state0 = torch.tensor(
