@@ -2,6 +2,24 @@
 
 mdp stuff first
 
+## Evaluation Results
+
+![Four DQN models and the MDP agent playing the same 10 games](finalResults/evaluations/games_10/agents_playing.gif)
+
+Every agent plays the same games (seed 42). Scores are the number of food items eaten.
+
+| Agent | 10 games<br>avg / median / best | 100 games<br>avg / median / best | 1000 games<br>avg / median / best |
+|---|---|---|---|
+| DQN `f13_h1024_best92avg35` | **36.2** / 35.5 / 53 | **36.61** / 36 / 61 | **35.76** / 36 / 82 |
+| MDP agent | 33.0 / 30.5 / 52 | 32.80 / 32 / 64 | 34.60 / 33 / 84 |
+| DQN `f12_h1024_run1024x1000` | 31.3 / 34.5 / 42 | 32.11 / 32 / 64 | 31.61 / 31.5 / 64 |
+| DQN `f11_h256_seed80_legacy` | 31.9 / 31 / 47 | 28.93 / 28 / 54 | 29.31 / 29 / 63 |
+| DQN `f13_h1024_failure` | 0.0 / 0 / 0 | 0.02 / 0 / 1 | 0.04 / 0 / 2 |
+
+Model names: `f` = input features, `h` = hidden units. The `failure` model is kept to show a training run that collapsed.
+
+Full results and score graphs: [10 games](finalResults/evaluations/games_10/), [100 games](finalResults/evaluations/games_100/), [1000 games](finalResults/evaluations/games_1000/).
+
 # Snake AI Project — Commands
 
 ## 1. MDP Reward Agent
@@ -165,7 +183,11 @@ python evaluate.py --games 100 --seed 42 --fps 30
 Training is complete. From the project folder, run this to evaluate every checkpoint in `finalResults/models` on the same games:
 
 ```powershell
-python scripts\evaluate_all.py --games 100 --seed 42
+# Watch the games (default: 30 FPS)
+python scripts\evaluate_all.py --games 10 --seed 42 --fps 20
+
+# Evaluate 1000 games without graphics
+python scripts\evaluate_all.py --games 1000 --seed 42 --no-display
 ```
 
-Each run is saved under `finalResults/evaluations`. The score graph opens when the run finishes and is saved as `score_comparison.png`. The comparison is in `comparison.csv`; each model also gets an `evaluation_<model-name>.csv` file named from its checkpoint. Increase `--games` for a steadier comparison.
+Each run is saved under `finalResults/evaluations`. The comparison is in `comparison.csv`; each model also gets an `evaluation_<model-name>.csv` file named from its checkpoint. Increase `--games` for a steadier comparison.
