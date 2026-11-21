@@ -1,0 +1,11 @@
+game,score,steps,total_reward,outcome
+1,35,623,281.3,collision
+2,44,775,357.0,collision
+3,32,546,258.7,collision
+4,46,962,358.5,collision
+5,27,576,205.2,collision
+6,36,672,286.5,collision
+7,23,442,178.2,collision
+8,53,1094,416.0,collision
+9,19,318,150.2,collision
+10,47,947,370.1,collision

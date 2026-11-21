@@ -18,7 +18,17 @@ Every agent plays the same games (seed 42). Scores are the number of food items 
 
 Model names: `f` = input features, `h` = hidden units. The `failure` model is kept to show a training run that collapsed.
 
-Full results and score graphs: [10 games](finalResults/evaluations/games_10/), [100 games](finalResults/evaluations/games_100/), [1000 games](finalResults/evaluations/games_1000/).
+Per-game results: [10 games](finalResults/evaluations/games_10/), [100 games](finalResults/evaluations/games_100/), [1000 games](finalResults/evaluations/games_1000/).
+
+## Final results
+
+These folders are inside `finalResults/`:
+
+- `models/` contains the four saved DQN checkpoints.
+- `training/` contains the training history for each checkpoint, with the same name.
+- `evaluations/` contains per-game CSV files for each run.
+- `archive/` keeps duplicate checkpoint copies and older results.
+- `Eval.ipynb` is the original evaluation notebook.
 
 # Snake AI Project — Commands
 
@@ -190,4 +200,4 @@ python scripts\evaluate_all.py --games 10 --seed 42 --fps 20
 python scripts\evaluate_all.py --games 1000 --seed 42 --no-display
 ```
 
-Each run is saved under `finalResults/evaluations`. The comparison is in `comparison.csv`; each model also gets an `evaluation_<model-name>.csv` file named from its checkpoint. Increase `--games` for a steadier comparison.
+Each run is saved under `finalResults/evaluations`. Each model gets an `evaluation_<model-name>.csv` file, named from its checkpoint, with one row per game. Increase `--games` for a steadier comparison.
