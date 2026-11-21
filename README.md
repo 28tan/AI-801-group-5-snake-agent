@@ -127,11 +127,13 @@ python evaluate.py --games 500 --seed 42
 python evaluate.py --games 1000 --seed 42 --no-display
 ```
 
-### DQN Output Files
+### Completed DQN Results
 
-- `model/model.pth` — trained neural network
-- `results/training_results.csv` — training results
-- `results/dqn_evaluation.csv` — evaluation results
+- `finalResults/models/` — saved checkpoints for the completed training runs
+- `finalResults/training/` — their training histories
+- `finalResults/evaluations/` — evaluation CSV files, reports, and graphs
+
+The existing training commands above are kept for reference. Training code was not changed during this results cleanup.
 
 ---
 
@@ -158,3 +160,12 @@ python evaluate.py --games 100 --seed 42 --fps 30
 ```
 
 ---
+## Compare the saved DQN models
+
+Training is complete. From the project folder, run this to evaluate every checkpoint in `finalResults/models` on the same games:
+
+```powershell
+python scripts\evaluate_all.py --games 100 --seed 42
+```
+
+Each run is saved under `finalResults/evaluations`. The score graph opens when the run finishes and is saved as `score_comparison.png`. The comparison is in `comparison.csv`; each model also gets an `evaluation_<model-name>.csv` file named from its checkpoint. Increase `--games` for a steadier comparison.

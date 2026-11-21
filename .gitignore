@@ -1,2 +1,7 @@
 __pycache__/
 dqagent/__pycache__/
+
+# Local training output (finished runs live in finalResults/)
+model/model.pth
+dqagent/model/model.pth
+dqagent/results/training_results.csv
